@@ -1,25 +1,56 @@
 import React, {
   Component
 } from 'react';
+
+import {
+  Link
+} from 'react-router-dom'
+
+import classNames from 'classnames';
+
 import '../styles/Menu.css';
 
+class MenuButton extends Component{
+  render() {
+    return (
+      <li className="nav-item" onClick={this.props.onClick}>
+        <Link className={classNames("nav-link", {
+            active: eval(this.props.active)
+          })}
+          to={this.props.link}>{this.props.label}</Link>
+      </li>
+    );
+  }
+}
+
 class Menu extends Component {
+  constructor(things) {
+    super(things);
+    this.buttons =
+    [ ["/", "Home"],
+      ["/Map", "Map"],
+      ["/Cars", "Cars"],
+      ["/About", "About"]];
+    this.state = {activeButton: 0};
+  }
+
+  handleButtonClick(i) {
+    this.setState({activeButton: i});
+  }
+
   render() {
     return (
       <div className="Menu">
         <ul className="nav nav-pills">
-         <li class="nav-item">
-           <a class="nav-link active" href="#">Item</a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="#">Item 2</a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="#">Item 3</a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="#">Item 4</a>
-         </li>
+         {this.buttons.map((button, i) => {
+          if (i === this.state.activeButton)
+            return (<MenuButton link={this.buttons[i][0]}
+                                label={this.buttons[i][1]} active="true"
+                                onClick={() => this.handleButtonClick(i)}/>);
+          return (<MenuButton link={this.buttons[i][0]}
+                              label={this.buttons[i][1]} active="false"
+                              onClick={() => this.handleButtonClick(i)}/>);
+         })}
        </ul>
     </div>
     );
