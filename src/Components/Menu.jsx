@@ -13,9 +13,10 @@ import '../styles/Menu.css';
 class MenuButton extends Component{
   render() {
     return (
-      <li className="nav-item" onClick={this.props.onClick}>
+      <li className="nav-item"
+          onClick={this.props.onClick}>
         <Link className={classNames("nav-link", {
-            active: eval(this.props.active)
+            active: this.props.active
           })}
           to={this.props.link}>{this.props.label}</Link>
       </li>
@@ -44,11 +45,13 @@ class Menu extends Component {
         <ul className="nav nav-pills">
          {this.buttons.map((button, i) => {
           if (i === this.state.activeButton)
-            return (<MenuButton link={this.buttons[i][0]}
-                                label={this.buttons[i][1]} active="true"
+            return (<MenuButton key={i}
+                                link={this.buttons[i][0]}
+                                label={this.buttons[i][1]} active={true}
                                 onClick={() => this.handleButtonClick(i)}/>);
-          return (<MenuButton link={this.buttons[i][0]}
-                              label={this.buttons[i][1]} active="false"
+          return (<MenuButton key={i}
+                              link={this.buttons[i][0]}
+                              label={this.buttons[i][1]} active={false}
                               onClick={() => this.handleButtonClick(i)}/>);
          })}
        </ul>
